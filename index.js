@@ -1,13 +1,14 @@
 var Connection = require('ssh2');
 
+var fileFactory = require('./file');
+
 module.exports = function(options) {
+    var setup = options.setup;
+
     var c = new Connection();
-    c.on('connect', function() {
-        console.log('Connection :: connect');
-    });
-    c.on('ready', function() {
-        console.log('Connection :: ready');
-        c.exec('touch hei.txt', function(err, stream) {
+
+    var exec = function(command) {
+        c.exec(command, function(err, stream) {
             if (err) throw err;
             stream.on('data', function(data, extended) {
                 console.log((extended === 'stderr' ? 'STDERR: ' : 'STDOUT: ')
@@ -24,6 +25,18 @@ module.exports = function(options) {
                 c.end();
             });
         });
+    };
+
+    c.on('connect', function() {
+        console.log('Connection :: connect');
+    });
+    c.on('ready', function() {
+        console.log('Connection :: ready');
+        var commands = [];
+        setup(fileFactory(commands));
+        for (var i in commands) {
+            exec(commands[i]);
+        }
     });
     c.on('error', function(err) {
         console.log('Connection :: error :: ' + err);
@@ -34,15 +47,10 @@ module.exports = function(options) {
     c.on('close', function(had_error) {
         console.log('Connection :: close');
     });
-
-    return {
-        build: function() {
-            c.connect({
-                host: options.host,
-                port: options.port,
-                username: options.username,
-                password: options.password
-            });
-        }
-    };
+    c.connect({
+        host: options.host,
+        port: options.port,
+        username: options.username,
+        password: options.password
+    });
 };
