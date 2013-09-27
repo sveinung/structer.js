@@ -1,0 +1,21 @@
+{
+  "name": "structer.js",
+  "version": "0.0.0",
+  "description": "Silly provisioning tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sveinung/structer.js.git"
+  },
+  "author": "Sveinung Dalatun",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sveinung/structer.js/issues"
+  },
+  "dependencies": {
+    "ssh2": "~0.2.12"
+  }
+}
