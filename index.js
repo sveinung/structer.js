@@ -1,7 +1,7 @@
 var Connection = require('ssh2');
 var _ = require('underscore');
 
-var fileFactory = require('./file');
+var fileFactory = require('./lib/file');
 
 module.exports = function(options) {
     var setup = options.setup;
