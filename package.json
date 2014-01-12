@@ -16,6 +16,7 @@
     "url": "https://github.com/sveinung/structer.js/issues"
   },
   "dependencies": {
-    "ssh2": "~0.2.12"
+    "ssh2": "~0.2.12",
+    "underscore": "~1.5.2"
   }
 }
