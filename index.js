@@ -5,6 +5,10 @@ var fileFactory = require('./file');
 
 module.exports = function(options) {
     var setup = options.setup;
+    var host = options.host;
+    var port = options.port;
+    var username = options.username;
+    var password = options.password;
 
     var c = new Connection();
 
@@ -50,9 +54,9 @@ module.exports = function(options) {
         console.log('Connection :: close');
     });
     c.connect({
-        host: options.host,
-        port: options.port,
-        username: options.username,
-        password: options.password
+        host: host,
+        port: port,
+        username: username,
+        password: password
     });
 };
