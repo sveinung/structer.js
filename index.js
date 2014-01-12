@@ -1,4 +1,5 @@
 var Connection = require('ssh2');
+var _ = require('underscore');
 
 var fileFactory = require('./file');
 
@@ -34,9 +35,10 @@ module.exports = function(options) {
         console.log('Connection :: ready');
         var commands = [];
         setup(fileFactory(commands));
-        for (var i in commands) {
-            exec(commands[i]);
-        }
+        commands.reverse(); // HACK: Mitigate funky bug
+        _.each(commands, function(command) {
+            exec(command);
+        });
     });
     c.on('error', function(err) {
         console.log('Connection :: error :: ' + err);
