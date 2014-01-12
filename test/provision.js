@@ -9,5 +9,9 @@ structer({
         file({
             name: '/home/vagrant/hei.txt'
         });
+        file({
+            name: '/home/vagrant/executable_file',
+            mode: '0755'
+        });
     }
 });
