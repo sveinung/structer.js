@@ -2,6 +2,7 @@ var Connection = require('ssh2');
 var _ = require('underscore');
 
 var fileFactory = require('./lib/file');
+var userFactory = require('./lib/user');
 
 module.exports = function(options) {
     var setup = options.setup;
@@ -13,7 +14,7 @@ module.exports = function(options) {
     var c = new Connection();
 
     var exec = function(command) {
-        c.exec(command, function(err, stream) {
+        c.exec("sudo " + command, function(err, stream) {
             if (err) throw err;
             stream.on('data', function(data, extended) {
                 console.log((extended === 'stderr' ? 'STDERR: ' : 'STDOUT: ')
@@ -37,9 +38,14 @@ module.exports = function(options) {
     });
     c.on('ready', function() {
         console.log('Connection :: ready');
+
         var commands = [];
-        setup(fileFactory(commands));
+        setup(
+            fileFactory(commands),
+            userFactory(commands));
+
         commands.reverse(); // HACK: Mitigate funky bug
+
         _.each(commands, function(command) {
             exec(command);
         });
