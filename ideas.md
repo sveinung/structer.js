@@ -1,0 +1,4 @@
+Ideas
+=====
+
+* Event Sourcing?
